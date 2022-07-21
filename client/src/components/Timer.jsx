@@ -1,27 +1,33 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { TimerContext } from "../context";
 import cl from "./Timer.module.css";
+import { Button } from "./UI/Button/Button";
+import { FaPlay } from "react-icons/fa";
+import { FiRefreshCw } from "react-icons/fi";
 
-export const Timer = (props) => {
-	const { initialMinute = 10, initialSeconds = 10 } = props;
-	const [minutes, setMinutes] = useState(initialMinute);
-	const [seconds, setSeconds] = useState(initialSeconds);
+export const Timer = ({ isTimerActive, setTimerActive }) => {
+	const { minutes, setMinutes, seconds, setSeconds } = useContext(TimerContext);
+
 	useEffect(() => {
-		let myInterval = setInterval(() => {
-			if (seconds > 0) {
-				setSeconds(seconds - 1);
-			}
-			if (seconds === 0) {
-				if (minutes === 0) {
-					clearInterval(myInterval);
-				} else {
-					setMinutes(minutes - 1);
-					setSeconds(59);
+		if (isTimerActive) {
+			let timer = setInterval(() => {
+				if (seconds > 0) {
+					setSeconds(seconds - 1);
 				}
-			}
-		}, 1000);
-		return () => {
-			clearInterval(myInterval);
-		};
+				if (seconds === 0) {
+					if (minutes === 0) {
+						clearInterval(timer);
+					} else {
+						setMinutes(minutes - 1);
+						setSeconds(59);
+					}
+				}
+			}, 1000);
+
+			return () => {
+				clearInterval(timer);
+			};
+		}
 	});
 
 	return (
@@ -36,8 +42,10 @@ export const Timer = (props) => {
 				)}
 			</div>
 			<div className={cl.buttons}>
-				<button className={cl.pause}>Pause</button>
-				<button className={cl.reset}>Reset</button>
+				<Button icon={<FaPlay />} onClick={() => setTimerActive(!isTimerActive)}>
+					Pause
+				</Button>
+				<Button icon={<FiRefreshCw />}>Reset</Button>
 			</div>
 		</div>
 	);
