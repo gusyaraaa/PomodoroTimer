@@ -1,3 +1,12 @@
+button {
+	border: none;
+	background-color: inherit;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
 .App {
 	max-width: 1400px;
 	margin: 0 auto;
@@ -17,7 +26,7 @@
 	margin-bottom: 20px;
 }
 
-button {
-	border: none;
-	background-color: inherit;
+.App__info {
+	margin-top: 30px;
+	color: rgba(157, 157, 157, 0.651);
 }

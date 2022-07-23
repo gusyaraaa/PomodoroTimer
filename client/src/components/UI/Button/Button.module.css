@@ -9,7 +9,3 @@
 	align-items: center;
 	gap: 10px;
 }
-
-.btn:hover {
-	cursor: pointer;
-}

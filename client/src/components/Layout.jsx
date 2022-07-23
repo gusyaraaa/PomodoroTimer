@@ -1,3 +1,9 @@
-export const Layout = ({ children }) => {
-	return <div style={{ backgroundColor: "rgb(30, 30, 30)", width: "100vw", minHeight: "100vh" }}>{children}</div>;
+import cl from "./Layout.module.css";
+
+export const Layout = ({ children, ...props }) => {
+	return (
+		<div className={cl.content} {...props}>
+			{children}
+		</div>
+	);
 };

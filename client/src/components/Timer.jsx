@@ -1,51 +1,76 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TimerContext } from "../context";
 import cl from "./Timer.module.css";
 import { Button } from "./UI/Button/Button";
-import { FaPlay } from "react-icons/fa";
+import { FaPlay, FaPause } from "react-icons/fa";
 import { FiRefreshCw } from "react-icons/fi";
 
-export const Timer = ({ isTimerActive, setTimerActive }) => {
-	const { minutes, setMinutes, seconds, setSeconds } = useContext(TimerContext);
+export const Timer = ({ sound }) => {
+	const { sessionLength, breakLength } = useContext(TimerContext);
+	const [timer, setTimer] = useState({ minutes: sessionLength, seconds: 0 });
+	const [isTimerActive, setTimerActive] = useState(false);
+	const [isSessionTime, setSessionTime] = useState(true);
+
+	const playSound = () => {
+		const audio = new Audio(sound);
+		audio.volume = 0.3;
+		audio.play();
+	};
+
+	const timeoutHandler = () => {
+		if (timer.seconds !== 0) {
+			return setTimer({
+				...timer,
+				seconds: timer.seconds - 1,
+			});
+		}
+
+		if (timer.minutes !== 0) {
+			return setTimer({
+				minutes: timer.minutes - 1,
+				seconds: 59,
+			});
+		}
+
+		playSound();
+
+		setTimer({
+			minutes: isSessionTime ? breakLength : sessionLength,
+			seconds: 0,
+		});
+		setSessionTime(!isSessionTime);
+	};
 
 	useEffect(() => {
-		if (isTimerActive) {
-			let timer = setInterval(() => {
-				if (seconds > 0) {
-					setSeconds(seconds - 1);
-				}
-				if (seconds === 0) {
-					if (minutes === 0) {
-						clearInterval(timer);
-					} else {
-						setMinutes(minutes - 1);
-						setSeconds(59);
-					}
-				}
-			}, 1000);
+		if (!isTimerActive) return;
 
-			return () => {
-				clearInterval(timer);
-			};
-		}
+		let timeout = setTimeout(timeoutHandler, 1000);
+
+		return () => {
+			clearTimeout(timeout);
+		};
 	});
+
+	const resetTimer = () => {
+		setSessionTime(true);
+		setTimer({ minutes: sessionLength, seconds: 0 });
+	};
 
 	return (
 		<div className={cl.content}>
-			<h2 className={cl.title}>Session</h2>
+			<h2 className={cl.title}>{isSessionTime ? "Session" : "Break"}</h2>
 			<div className={cl.timer}>
-				{minutes === 0 && seconds === 0 ? null : (
-					<h3>
-						{" "}
-						{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-					</h3>
-				)}
+				<span>
+					{timer.minutes}:{timer.seconds < 10 ? `0${timer.seconds}` : timer.seconds}
+				</span>
 			</div>
 			<div className={cl.buttons}>
-				<Button icon={<FaPlay />} onClick={() => setTimerActive(!isTimerActive)}>
-					Pause
+				<Button icon={isTimerActive ? <FaPause /> : <FaPlay />} onClick={() => setTimerActive(!isTimerActive)}>
+					{isTimerActive ? "Pause" : "Start"}
 				</Button>
-				<Button icon={<FiRefreshCw />}>Reset</Button>
+				<Button icon={<FiRefreshCw />} onClick={resetTimer}>
+					Reset
+				</Button>
 			</div>
 		</div>
 	);
