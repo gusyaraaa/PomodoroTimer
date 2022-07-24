@@ -15,6 +15,15 @@ export const Timer = ({ sound }) => {
 		const audio = new Audio(sound);
 		audio.volume = 0.3;
 		audio.play();
+
+		let timeout = setTimeout(() => {
+			audio.pause();
+			audio.currentTime = 0;
+		}, breakLength * 60 * 1000);
+
+		return () => {
+			clearTimeout(timeout);
+		};
 	};
 
 	const timeoutHandler = () => {
@@ -32,7 +41,7 @@ export const Timer = ({ sound }) => {
 			});
 		}
 
-		playSound();
+		if (isSessionTime) playSound();
 
 		setTimer({
 			minutes: isSessionTime ? breakLength : sessionLength,
