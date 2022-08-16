@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/PomodoroTimer/static/css/main.aacd27b2.css",
-    "main.js": "/PomodoroTimer/static/js/main.6f3b1a91.js",
-    "static/media/breakTime.mp3": "/PomodoroTimer/static/media/breakTime.78128c8bfa2d71c96b7f.mp3",
-    "index.html": "/PomodoroTimer/index.html",
-    "main.aacd27b2.css.map": "/PomodoroTimer/static/css/main.aacd27b2.css.map",
-    "main.6f3b1a91.js.map": "/PomodoroTimer/static/js/main.6f3b1a91.js.map"
+    "main.css": "/React__PomodoroTimer/static/css/main.aacd27b2.css",
+    "main.js": "/React__PomodoroTimer/static/js/main.72724d1f.js",
+    "static/media/breakTime.mp3": "/React__PomodoroTimer/static/media/breakTime.78128c8bfa2d71c96b7f.mp3",
+    "index.html": "/React__PomodoroTimer/index.html",
+    "main.aacd27b2.css.map": "/React__PomodoroTimer/static/css/main.aacd27b2.css.map",
+    "main.72724d1f.js.map": "/React__PomodoroTimer/static/js/main.72724d1f.js.map"
   },
   "entrypoints": [
     "static/css/main.aacd27b2.css",
-    "static/js/main.6f3b1a91.js"
+    "static/js/main.72724d1f.js"
   ]
 }
